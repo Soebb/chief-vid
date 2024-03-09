@@ -8,6 +8,7 @@ RUN apt-get update && apt-get -y install curl sudo
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sudo sh get-docker.sh
+RUN sudo service docker start
 
 WORKDIR /app
 
