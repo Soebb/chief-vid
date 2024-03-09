@@ -8,3 +8,6 @@ sudo service dbus start
 sudo service docker start
 sudo rm -rf /var/lib/docker/network
 docker ps -a | cut -d' ' -f 1 | xargs -n 1 echo docker rm -f
+sudo firewall-cmd --zone=FedoraWorkstation --remove-interface=docker0 --permanent
+sudo service dbus start
+sudo service docker restart
