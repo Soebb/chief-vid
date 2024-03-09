@@ -4,6 +4,9 @@ services:
     image: boehmls/chief-video:latest
     build:
       context: ./app
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /usr/bin/docker:/usr/bin/docker
 
   streaming-server:
     image: airensoft/ovenmediaengine:latest
