@@ -1,4 +1,5 @@
-FROM alpine:3.19.1
+FROM ubuntu:bionic
+ARG DEBIAN_FRONTEND=noninteractive
 
 ARG USER=root
 USER $USER
