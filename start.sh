@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /app
-docker run -v /var/run/docker.sock:/var/run/docker.sock
+#docker run -v /var/run/docker.sock:/var/run/docker.sock
 #sudo chown root:docker /var/run/docker.sock
 sudo docker-compose up
 
