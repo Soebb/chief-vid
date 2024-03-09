@@ -1,10 +1,7 @@
 #!/bin/sh
 cd /app
-
+export DOCKER_HOST=127.0.0.1
 sudo docker-compose up
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo reboot
 
 #docker info
 #sudo docker-compose up
