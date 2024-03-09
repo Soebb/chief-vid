@@ -1,7 +1,10 @@
 #!/bin/sh
 cd /app
-sudo mv /var/lib/docker /var/lib/docker.bak
-sudo service docker start && docker-compose up -d
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# Log out and log back in again to apply the groups
+groups
+docker-compose up
 #sudo docker-compose up
 #docker build -t boehmls/chief-video:latest .
 #docker run --privileged --rm -v /app/videos:/app/videos -p 5000:5000 -e "VIDEO_URL=/app/videos" boehmls/chief-video:latest
