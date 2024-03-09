@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /app
-export DOCKER_HOST=127.0.0.1
+sudo chown root:docker /var/run/docker.sock
 sudo docker-compose up
 
 #docker info
