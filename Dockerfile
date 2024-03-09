@@ -1,10 +1,8 @@
-FROM ubuntu:bionic
-ARG DEBIAN_FRONTEND=noninteractive
+FROM docker:dind-stable
 
 ARG USER=root
 USER $USER
-#RUN python3 -m venv venv
-RUN apt-get update && apt-get -y install docker-ce
+
 WORKDIR /app
 
 COPY . ./
