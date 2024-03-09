@@ -4,11 +4,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG USER=root
 USER $USER
 
-RUN apt-get update && apt-get -y install curl sudo firewalld docker-compose
+RUN apt-get update && apt-get -y install curl sudo
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sudo sh get-docker.sh
-
+RUN apt-get update && apt-get -y install docker-compose
 WORKDIR /app
 
 COPY . ./
