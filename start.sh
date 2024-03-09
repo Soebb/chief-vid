@@ -1,6 +1,8 @@
 #!/bin/sh
 cd /app
-sudo docker-compose up
+sudo chmod 666 /var/run/docker.sock
+sudo service docker start && docker-compose up -d
+#sudo docker-compose up
 #docker build -t boehmls/chief-video:latest .
 #docker run --privileged --rm -v /app/videos:/app/videos -p 5000:5000 -e "VIDEO_URL=/app/videos" boehmls/chief-video:latest
 #dockerd --iptables=false
