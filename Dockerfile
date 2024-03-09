@@ -4,7 +4,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG USER=root
 USER $USER
 
-RUN apt-get update && apt-get -y install curl
+RUN apt-get update && apt-get -y install curl sudo
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sudo sh get-docker.sh
