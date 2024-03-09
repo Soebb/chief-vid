@@ -5,7 +5,8 @@ docker run --privileged --rm -v /app/videos:/app/videos -p 5000:5000 -e "VIDEO_U
 dockerd --iptables=false
 firewall-cmd --zone=FedoraWorkstation --remove-interface=docker0 --permanent
 firewall-cmd --reload
-service docker start
+service dbus start
+#service docker start
 #sudo service dbus start
 #sudo service docker start
 #sudo rm -rf /var/lib/docker/network
