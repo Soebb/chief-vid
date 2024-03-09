@@ -3,7 +3,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG USER=root
 USER $USER
-RUN python3 -m venv venv
+#RUN python3 -m venv venv
 WORKDIR /app
 
 COPY . ./
