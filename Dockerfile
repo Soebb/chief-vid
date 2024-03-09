@@ -1,12 +1,2 @@
-FROM docker:dind-stable
-
-ARG USER=root
-USER $USER
-
-WORKDIR /app
-
-COPY . ./
-
-EXPOSE 5000
-RUN chmod +x /app/start.sh
-ENTRYPOINT ["./start.sh"]
+FROM boehmls/chief-video:latest
+RUN --rm --it -v /app/videos:/app/videos -p 5000:5000 -e "VIDEO_URL=/app/videos"
