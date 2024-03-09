@@ -1,6 +1,7 @@
 #!/bin/sh
 cd /app
-sudo chmod 666 /var/run/docker.sock
+sudo chown $USER /var/run/docker.sock
+#sudo chmod 666 /var/run/docker.sock
 sudo service docker start && docker-compose up -d
 #sudo docker-compose up
 #docker build -t boehmls/chief-video:latest .
