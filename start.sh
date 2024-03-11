@@ -2,7 +2,7 @@
 cd /apps
 #docker run -v /var/run/docker.sock:/var/run/docker.sock
 #sudo chown root:docker /var/run/docker.sock
-docker-compose up
+sudo docker-compose build
 
 #docker info
 #sudo docker-compose up
