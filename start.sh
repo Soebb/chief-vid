@@ -1,8 +1,8 @@
 #!/bin/sh
-cd /app
+cd /apps
 #docker run -v /var/run/docker.sock:/var/run/docker.sock
 #sudo chown root:docker /var/run/docker.sock
-sudo docker-compose up
+docker-compose up
 
 #docker info
 #sudo docker-compose up
@@ -14,6 +14,6 @@ sudo docker-compose up
 #service dbus start
 #service docker start
 #sudo service dbus start
-sudo service docker start
+#sudo service docker start
 #sudo rm -rf /var/lib/docker/network
 #docker ps -a | cut -d' ' -f 1 | xargs -n 1 echo docker rm -f
