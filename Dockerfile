@@ -6,11 +6,11 @@ RUN apt-get update && apt-get -y install curl sudo
 RUN RUN curl -sSL https://get.docker.com/ | sh
 RUN apt-get update && apt-get -y install docker-compose
 
-WORKDIR /app
+WORKDIR /apps
 
 COPY . ./
 
 EXPOSE 5000
 
-RUN chmod +x /app/start.sh
+RUN chmod +x /apps/start.sh
 ENTRYPOINT ["./start.sh"]
