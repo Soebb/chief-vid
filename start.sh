@@ -1,8 +1,10 @@
 #!/bin/sh
 cd /apps
+gunicorn --workers=3 -b :5000 --log-level debug app:app
+
 #docker run -v /var/run/docker.sock:/var/run/docker.sock
 #sudo chown root:docker /var/run/docker.sock
-sudo docker-compose build
+#sudo docker-compose build
 
 #docker info
 #sudo docker-compose up
