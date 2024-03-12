@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /apps
+cd /apps/app
 gunicorn --workers=3 -b :5000 --log-level debug app:app
 
 #docker run -v /var/run/docker.sock:/var/run/docker.sock
