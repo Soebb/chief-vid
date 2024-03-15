@@ -8,7 +8,6 @@ RUN RUN curl -sSL https://get.docker.com/ | sh
 RUN apt-get update && apt-get -y install docker-compose
 
 WORKDIR /apps
-
 COPY . ./
 
 RUN pip install --no-cache-dir git+https://github.com/Soebb/docker-run-cmd.git gunicorn Flask python-dotenv Flask-WTF Flask-Session ffprobe-python
