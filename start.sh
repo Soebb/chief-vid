@@ -5,4 +5,4 @@ docker-run-cmd Dockerfile
 sudo dockerd --iptables=false
 sudo firewall-cmd --zone=FedoraWorkstation --remove-interface=docker0 --permanent
 sudo firewall-cmd --reload
-sudo systemctl start dbus.socket
+sudo service start dbus.socket
