@@ -1,4 +1,5 @@
 #!/bin/sh
 cd /apps
 docker-run-cmd Dockerfile
-dockerd
+sudo service docker restart
+#sudo dockerd
