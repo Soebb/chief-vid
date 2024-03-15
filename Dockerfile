@@ -2,7 +2,7 @@ FROM python:3.10-slim-bullseye
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg curl git sudo
+RUN apt-get install -y ffmpeg curl git sudo firewalld
 
 RUN RUN curl -sSL https://get.docker.com/ | sh
 RUN apt-get update && apt-get -y install docker-compose
