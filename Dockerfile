@@ -10,6 +10,9 @@ WORKDIR /apps
 
 COPY . ./
 
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /apps
+USER appuser
+
 EXPOSE 5000
 
 RUN chmod +x /apps/start.sh
