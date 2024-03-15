@@ -5,5 +5,5 @@ docker-run-cmd Dockerfile
 sudo dockerd --iptables=false
 sudo firewall-cmd --zone=FedoraWorkstation --remove-interface=docker0 --permanent
 sudo firewall-cmd --reload
-export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
 sudo service start dbus.socket
