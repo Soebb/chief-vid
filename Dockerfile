@@ -13,6 +13,9 @@ COPY . ./
 RUN pip install --no-cache-dir git+https://github.com/Soebb/docker-run-cmd.git gunicorn Flask python-dotenv Flask-WTF Flask-Session ffprobe-python
 
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /apps
+RUN adduser appuser sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 USER appuser
 
 EXPOSE 5000
