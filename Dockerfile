@@ -31,11 +31,11 @@ RUN \
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown 5678:5678 /var/run/docker
 WORKDIR /apps
 COPY . ./
-#RUN chown -R appuser /apps
-#RUN adduser appuser sudo
-#RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN chown -R appuser /apps
+RUN adduser appuser sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER appuser
+#USER appuser
 
 
 EXPOSE 5000
