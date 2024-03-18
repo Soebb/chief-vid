@@ -28,25 +28,14 @@ RUN \
     #service docker start; \
     #rm -rf /var/cache/apt;
 
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && sudo chown 1000:1000 /var/run/docker
+#RUN adduser -u 5678 --disabled-password --gecos "" appuser && sudo chown 1000:1000 /var/run/docker
 WORKDIR /apps
 COPY . ./
-RUN chown -R appuser /apps
-RUN adduser appuser sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+#RUN chown -R appuser /apps
+#RUN adduser appuser sudo
+#RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-USER appuser
-RUN \
-    sudo service docker start; \
-    #rm -rf /var/cache/apt; \
-    sudo service docker stop; \
-    #rm /var/run/docker.pid; \
-    sudo dockerd --iptables=false; \
-    #cd /var/run/docker/libcontainerd; \
-    #rm -rf containerd/*; \
-    #rm -f docker-containerd.pid; \
-    sudo service docker start;
-
+#USER appuser
 
 
 EXPOSE 5000
