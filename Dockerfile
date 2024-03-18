@@ -2,7 +2,7 @@ FROM ubuntu:jammy
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y docker-compose python3 python3-pip
+RUN apt-get install -y docker-compose python3 python3-pip sudo
 RUN pip install urllib3==1.26.18
 RUN apt-get update && apt-get install ca-certificates curl -y \
         && install -m 0755 -d /etc/apt/keyrings \
