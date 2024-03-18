@@ -9,9 +9,11 @@ WORKDIR /apps
 COPY . ./
 COPY docker-compose.yml /apps/docker-compose.yml
 EXPOSE 5000
-RUN echo "ulimits: $(ulimit -Sn):$(ulimit -Hn)" \
-    && service docker start \
-    && rm -rf /var/cache/apt
+RUN \
+    echo "ulimits: $(ulimit -Sn):$(ulimit -Hn)"; \
+    sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker; \
+    service docker start; \
+    rm -rf /var/cache/apt;
 
 RUN chmod +x /apps/start.sh
 ENTRYPOINT ["./start.sh"]
