@@ -35,7 +35,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER appuser
 RUN \
-    sudo service docker start; \
+    sudo service docker start;
     #rm -rf /var/cache/apt; \
     #sudo service docker stop; \
     #rm /var/run/docker.pid; \
