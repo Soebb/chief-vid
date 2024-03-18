@@ -27,7 +27,7 @@ RUN \
     echo "ulimits: $(ulimit -Sn):$(ulimit -Hn)"; \
     sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker; \
     service docker start; \
-    rm -rf /var/cache/apt; \
+    rm -rf /var/cache/apt;
     #rm /var/run/docker.pid; \
     #dockerd;
     #service docker stop; \
