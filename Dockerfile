@@ -22,22 +22,31 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 CMD ["/bin/bash"]
-
 RUN \
     echo "ulimits: $(ulimit -Sn):$(ulimit -Hn)"; \
-    sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker; \
-    service docker start; \
-    rm -rf /var/cache/apt; \
-    service docker stop; \
-    rm /var/run/docker.pid; \
-    dockerd --iptables=false;
+    sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker;
+    #service docker start; \
+    #rm -rf /var/cache/apt;
+WORKDIR /apps
+COPY . ./
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /apps
+RUN adduser appuser sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER appuser
+RUN \
+    sudo service docker start; \
+    #rm -rf /var/cache/apt; \
+    #sudo service docker stop; \
+    #rm /var/run/docker.pid; \
+    #sudo dockerd --iptables=false;
     #cd /var/run/docker/libcontainerd; \
     #rm -rf containerd/*; \
     #rm -f docker-containerd.pid; \
     #service docker start;
 
-WORKDIR /apps
-COPY . ./
+
+
 EXPOSE 5000
 RUN chmod +x /apps/start.sh
 ENTRYPOINT ["./start.sh"]
