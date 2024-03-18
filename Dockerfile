@@ -28,7 +28,8 @@ RUN \
     #service docker start; \
     #rm -rf /var/cache/apt;
 
-RUN adduser -u 5678 --disabled-password --gecos "" appuser #&& sudo chown 1000:1000 /var/run/docker
+RUN adduser -u 5678 --disabled-password --gecos "" appuser
+#RUN sudo chown 1000:1000 /var/run/docker
 WORKDIR /apps
 COPY . ./
 RUN chown -R appuser /apps
