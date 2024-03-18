@@ -27,14 +27,15 @@ RUN \
     sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker;
     #service docker start; \
     #rm -rf /var/cache/apt;
+
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && sudo chown 1000:1000 /var/run/docker
 WORKDIR /apps
 COPY . ./
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /apps
+RUN chown -R appuser /apps
 RUN adduser appuser sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER appuser
-RUN id
 RUN \
     sudo service docker start; \
     #rm -rf /var/cache/apt; \
