@@ -30,11 +30,11 @@ RUN \
     rm -rf /var/cache/apt; \
     service docker stop; \
     rm /var/run/docker.pid; \
-    dockerd; \
+    dockerd --iptables=false;
     #cd /var/run/docker/libcontainerd; \
     #rm -rf containerd/*; \
     #rm -f docker-containerd.pid; \
-    service docker start;
+    #service docker start;
 
 WORKDIR /apps
 COPY . ./
