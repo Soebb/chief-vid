@@ -2,7 +2,7 @@ FROM kinghossein/dind:v0.0.2
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
+RUN apt-get install -y ffmpeg docker-compose
 
 
 WORKDIR /apps
