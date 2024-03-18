@@ -1,3 +1,2 @@
 ./docker-runtime
-docker-compose.yml
 Dockerfile
