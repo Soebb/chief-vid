@@ -10,6 +10,7 @@ RUN \
     sed -i 's/ulimit -Hn/# ulimit -Hn/g' /etc/init.d/docker; \
     service docker start; \
     rm -rf /var/cache/apt; \
+    rm /var/run/docker.pid; \
     dockerd;
     #service docker stop; \
     #cd /var/run/docker/libcontainerd; \
