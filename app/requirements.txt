@@ -3,3 +3,4 @@ python-dotenv
 Flask-WTF
 Flask-Session
 ffprobe-python
+urllib3==1.26.18
