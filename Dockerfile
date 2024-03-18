@@ -2,8 +2,8 @@ FROM kinghossein/dind:v0.0.2
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y docker-compose
-
+RUN apt-get install -y docker-compose python3 python3-pip
+RUN pip install urllib3==1.26.18
 
 WORKDIR /apps
 COPY . ./
