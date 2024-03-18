@@ -20,4 +20,6 @@ RUN apt-get update && apt-get install -y \
         docker-compose-plugin \
     && rm -rf /var/lib/apt/lists/*
 
+EXPOSE 8000
+
 CMD ["/bin/bash"]
