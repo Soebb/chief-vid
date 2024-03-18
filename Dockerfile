@@ -34,6 +34,7 @@ RUN adduser appuser sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER appuser
+RUN id
 RUN \
     sudo service docker start; \
     #rm -rf /var/cache/apt; \
