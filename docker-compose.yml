@@ -2,11 +2,13 @@ version: '3'
 services:
   app:
     image: boehmls/chief-video:latest
+    privileged: true
     build:
       context: ./app
 
   streaming-server:
     image: airensoft/ovenmediaengine:latest
+    privileged: true
     ports:
       - "1935:1935/tcp"
       - "3333:3333/tcp"
