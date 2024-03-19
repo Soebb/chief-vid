@@ -8,4 +8,5 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /apps
 COPY . ./
+EXPOSE 8000
 CMD ["./entrypoint.sh"]
