@@ -5,5 +5,6 @@ start-docker.sh
 
 # Your commands go here
 cd /apps
+docker service restart
 docker run --privileged ubuntu-dind docker compose up
-#docker run --privileged ubuntu-dind-test docker run hello-world
+docker service restart
