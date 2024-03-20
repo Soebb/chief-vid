@@ -3,12 +3,16 @@ services:
   app:
     image: boehmls/chief-video:latest
     privileged: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     build:
       context: ./app
 
   streaming-server:
     image: airensoft/ovenmediaengine:latest
     privileged: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "1935:1935/tcp"
       - "3333:3333/tcp"
