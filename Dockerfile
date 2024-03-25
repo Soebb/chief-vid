@@ -1,4 +1,4 @@
-FROM nestybox/ubuntu-disco-docker:latest
+FROM ubuntu-bionic-systemd-docker:latest
 
 WORKDIR /apps
 
