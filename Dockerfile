@@ -1,5 +1,6 @@
-FROM ubuntu-bionic-systemd-docker:latest
+FROM ubuntu:latest
 
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 WORKDIR /apps
 
 COPY . ./
