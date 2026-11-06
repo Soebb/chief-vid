@@ -1,6 +1,7 @@
 services:
   - type: web
     name: chief-vid
+    branch: Master
     runtime: python
     plan: free
     buildCommand: pip install -r app/requirements.txt gunicorn
