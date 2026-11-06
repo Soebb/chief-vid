@@ -1,9 +1,29 @@
-version: '3'
 services:
   app:
-    image: boehmls/chief-video:latest
+    image: chief-video-app:latest
     build:
       context: ./app
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in the deployment environment}
+      LOGIN_PASSWORD: ${LOGIN_PASSWORD:?Set LOGIN_PASSWORD in the deployment environment}
+      VIDEO_PATH: /videos
+      VIDEO_URL: /media
+    volumes:
+      - video-data:/videos
+    expose:
+      - "5000"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - video-data:/videos:ro
+    restart: unless-stopped
 
   streaming-server:
     image: airensoft/ovenmediaengine:latest
@@ -28,3 +48,7 @@ services:
       - OME_TCP_RELAY_ADDRESS=*:3478
       - OME_ICE_CANDIDATES=*:10006-10010/udp
     command: /opt/ovenmediaengine/bin/OvenMediaEngine -c origin_conf
+    restart: unless-stopped
+
+volumes:
+  video-data:
