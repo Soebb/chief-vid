@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: chief-vid
+    runtime: python
+    plan: free
+    buildCommand: pip install -r app/requirements.txt gunicorn
+    startCommand: cd app && gunicorn --workers 3 --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
+      - key: SECRET_KEY
+        generateValue: true
+      - key: LOGIN_PASSWORD
+        sync: false
+      - key: VIDEO_PATH
+        value: ../videos
+      - key: VIDEO_URL
+        value: /media
