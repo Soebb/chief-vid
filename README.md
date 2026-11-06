@@ -1,6 +1,6 @@
 # ChiefVideo
 
-Simple website for videos playing hosted videos
+Simple website for hosted videos.
 
 ## Developing
 
@@ -8,53 +8,84 @@ Simple website for videos playing hosted videos
 
 #### Simple development HTTP server
 
-We can provide a simple http server by creating a `video` directory, changing into this directory and call `python3 -m http.server`.
-
-#### Simple flask server
-
-First install the requirements with `pip3 install -r requirements.txt` in the app directory. By running `python3 -m flask run` we can start a simple development server for the web app.
-
-### Docker
+Create a `video` directory, change into it, and run:
 
 ```bash
-docker build -t boehmls/chief-video:latest .
-docker run --rm --it -v <VIDEO_PATH>:/app/videos -p <PORT>:5000 -e "VIDEO_URL=<VIDEO_URL>" boehmls/chief-video:latest
+python3 -m http.server
 ```
 
-## Deploying
+#### Simple Flask server
 
-The docker deployment is recommended.
-
-### Native
-
-The following assumes a linux server with systemd, nginx and python3 installed.
-First you have to adapt the `chief-video.server` and `chief-video.conf` to your liking and update paths as neccecary.
+Install the requirements in the `app` directory:
 
 ```bash
-pip3 install gunicorn
-sudo ln -s ./chief-video.service /etc/systemd/system/chief-video.service
-sudo daemon-reload
-sudo ln -s ./chief-video.conf /etc/nginx/sites-enabled/chief-video.conf
-sudo systemctl start chief-video
-sudo systemctl reload nginx
+pip3 install -r requirements.txt
+python3 -m flask run
 ```
 
-### Docker
+## Deploying with Docker Compose
+
+The Compose setup runs the Flask/Gunicorn website and an Nginx web server:
+
+- **Flask** reads the video directory, calculates file metadata, and renders the website.
+- **Nginx** serves the actual video bytes from the same shared storage and forwards the other requests to Flask.
+- Both containers mount the same Docker volume at `/videos`. Nginx mounts it read-only.
+
+### Required environment variables
+
+Set these variables in the deployment platform before starting the stack:
+
+- `SECRET_KEY`: a long, random secret used by Flask sessions.
+- `LOGIN_PASSWORD`: the password used to sign in to the website.
+
+Do not commit real secrets to Git.
+
+### Video storage
+
+The Compose file declares a persistent named volume called `video-data`. Put the video folders in this volume, keeping the structure below:
+
+```text
+/videos/
+├── Category1/
+│   ├── Video1.mp4
+│   └── Video2.mp4
+└── Category2/
+    └── Video1.mp4
+```
+
+The volume must be persistent on the hosting platform. If the platform does not support persistent named Docker volumes or does not allow files to be added to them, configure its persistent storage feature and mount that storage at `/videos` in both the `app` and `nginx` services instead. Do not put large video files in the application image or commit them to Git.
+
+### Request routing
+
+- Website pages (including `/videos` and `/videos/<category>/<filename>`) are sent by Nginx to Flask.
+- Video files are served by Nginx under `/media/<category>/<filename>`.
+- `VIDEO_PATH=/videos` tells Flask where to inspect files.
+- `VIDEO_URL=/media` tells the video page where the browser can fetch the actual file. This separate URL prefix avoids conflicting with Flask's existing `/videos` page routes.
+
+Nginx listens on port 80 in the container. The deployment platform must route public HTTP traffic to the Nginx service on container port 80. If the platform requires a different internal port or a different routing configuration, adjust the `nginx` service accordingly.
+
+### Local Compose run
+
+For a local test, create a `.env` file in the repository root with:
+
+```dotenv
+SECRET_KEY=replace-with-a-long-random-value
+LOGIN_PASSWORD=choose-a-strong-password
+```
+
+Then start the stack:
 
 ```bash
-docker pull boehmls/chief-video:latest
-docker run --name chief-video -v <VIDEO_PATH>:/app/videos -p <PORT>:5000 --env-file <ENV_FILE>  boehmls/chief-video:latest
+docker compose up --build -d
 ```
 
-where `<VIDEO_PATH>` is the absolute path to the video directory.
-The `<PORT>` can be any of your choice. Note that the port is only for the docker process running on the localhost. You still have to forward it using a reverse proxy like nginx.
-Then we need to pass the environment variables. We can do this by hand or use an `.env` file like `<ENV_FILE>`.
+Add video files to the persistent `video-data` volume before expecting them to appear in the website. The `.env` file is for local use only; configure the same variables as deployment secrets on your hosting platform.
 
 ## Directory
 
-The video directory has to be structured as follows:
+The video directory must be structured as follows:
 
-```
+```text
 . // video root
 |- Category1
 |  |- Video1
@@ -67,11 +98,11 @@ The video directory has to be structured as follows:
 
 ## Environment Variables
 
-- `VIDEO_PATH`: the (absolute) path on the server where the videos are located. Default `./videos`
-- `VIDEO_URL`: the base url to videos. Since the flask app does not provide the videos themselves, we need another HTTP server to do this job. This variable needs to provide the resources in the same tree structure as presented in the directory section. Either has to be a relative path or a full url (including the "http://")
-- `SECRET_KEY`: required by flask to use secure sessions
-- `LOGIN_PASSWORD`: password for the website
-- `VIDEO_USERNAME` and `VIDEO_PASSWORD`: are the http basic auth information for the video streaming server. Can be omitted if not neccecary
+- `VIDEO_PATH`: absolute path to the video directory. The Compose deployment sets it to `/videos`.
+- `VIDEO_URL`: base URL used by the browser to fetch video files. The Compose deployment sets it to `/media`, served by Nginx.
+- `SECRET_KEY`: required by Flask to use secure sessions.
+- `LOGIN_PASSWORD`: password for the website.
+- `VIDEO_USERNAME` and `VIDEO_PASSWORD`: optional HTTP basic-auth credentials for a separate video server. They are not needed for the included Nginx setup.
 
 ## Roadmap
 
@@ -81,7 +112,7 @@ The video directory has to be structured as follows:
 - [ ] Live streaming
 - [ ] video upload (in website)
 - [ ] configuration files (to possibly exclude some files or set other information)
-- [ ] allowing to use a remote vide directory
+- [ ] allowing to use a remote video directory
 - [x] show videolength (using ffmpeg - ffprobe)
 - [ ] converter for new video files (as not all video formats are supported in every browser)
 - [x] update design
