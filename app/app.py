@@ -46,9 +46,9 @@ def set_context():
 
 
 class LoginForm(FlaskForm):
-    password = PasswordField(label="Passwort eingeben",
+    password = PasswordField(label="Enter password",
                              validators=[DataRequired()])
-    submit = SubmitField(label="Einloggen")
+    submit = SubmitField(label="Log in")
 
 
 def login_required(func):
@@ -157,10 +157,10 @@ def login():
     if form.validate_on_submit():
         if form.password.data == LOGIN_PASSWORD:
             session["authenticated"] = True
-            flash("Erfolgreich angemeldet")
+            flash("Successfully logged in")
             return redirect("/")
         else:
-            flash("Falsches Passwort")
+            flash("Incorrect password")
     return render_template("Login.html", form=form)
 
 
