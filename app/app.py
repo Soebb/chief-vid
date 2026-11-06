@@ -1,13 +1,12 @@
 import functools
 import os
-from datetime import datetime
-from flask import Flask, render_template, abort, redirect, flash, url_for, session
+from datetime import datetime, timedelta
+from flask import Flask, render_template, abort, redirect, flash, url_for, session, send_from_directory
 from dotenv import load_dotenv
 from flask_wtf import FlaskForm
 from wtforms.fields.simple import PasswordField, SubmitField
 from wtforms.validators import DataRequired
 from flask_session import Session
-from datetime import timedelta
 from ffprobe import FFProbe
 import werkzeug.exceptions
 
@@ -86,7 +85,6 @@ def videos():
             if not vid.is_file():
                 continue
 
-
             duration = "not available"
             # try:
             #     metadata = FFProbe(vid.path)
@@ -134,6 +132,13 @@ def video(category, vid):
         })
     else:
         abort(404)
+
+
+@app.route('/media/<string:category>/<path:filename>')
+@login_required
+def media(category, filename):
+    # Render serves the video directly from Flask; local Compose uses Nginx.
+    return send_from_directory(VIDEO_PATH, f"{category}/{filename}", conditional=True)
 
 
 @app.route("/streams")
