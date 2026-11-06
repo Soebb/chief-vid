@@ -4,9 +4,9 @@
 {% raw %}
 <main id="app">
 	<div class="input-group">
-		<input v-model="query" class="form-control" list="datalist" placeholder="Suche ..." />
+		<input v-model="query" class="form-control" list="datalist" placeholder="Search..." />
 		<div class="input-group-append">
-			<button @click="query = ''" class="btn btn-outline-secondary" type="button">X</button>
+			<button @click="query = ''" class="btn btn-outline-secondary" type="button">Clear</button>
 		</div>
 		<datalist id="datalist">
 			<option v-for="el in datalistOptions" v-bind:value="el" />
@@ -20,11 +20,11 @@
 			<div v-for="vid of vidsForCategory(category)" class="py-2 col-md-6 col-lg-4 col-xl-3 col-sm-12">
 				<div class="border rounded p-4 h-100 shadow-sm">
 					<h3 class="mb-4 font-weight-normal">{{ vid.name }}</h3>
-					<p class="card-text">Datum: {{ getHumanDate(vid.date) }}</p>
-					<p class="card-text">Größe: {{ getHumanSize(vid.size) }}</p>
-					<p class="card-text">Länge: {{ vid.duration }}</p>
+					<p class="card-text">Date: {{ getHumanDate(vid.date) }}</p>
+					<p class="card-text">Size: {{ getHumanSize(vid.size) }}</p>
+					<p class="card-text">Duration: {{ vid.duration }}</p>
 					<a v-bind:href="getVideoUrl(category, vid.file)">
-						<button class="btn btn-lg btn-primary" type="button">Öffnen</button>
+						<button class="btn btn-lg btn-primary" type="button">Open</button>
 					</a>
 				</div>
 			</div>
