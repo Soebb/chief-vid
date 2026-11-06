@@ -23,6 +23,35 @@ pip3 install -r requirements.txt
 python3 -m flask run
 ```
 
+## Deploying to Render
+
+This repository includes a Render Blueprint in `render.yaml`. It deploys the Flask app as a single Python web service; it does not run the Docker Compose stack or Nginx.
+
+### Create the service
+
+1. Sign in to Render and choose **New → Blueprint**.
+2. Connect the GitHub repository `Soebb/chief-vid` and select the `Master` branch.
+3. Render reads `render.yaml`. Before creating the service, provide a value for the required `LOGIN_PASSWORD` environment variable when prompted.
+4. Deploy the service. Render generates `SECRET_KEY` automatically.
+
+The Render service starts Gunicorn on Render's assigned `PORT`. Flask serves both the website and video files, so a separate Nginx service is not needed for this deployment.
+
+### How videos reach the site
+
+For this Render setup, videos are read from the repository's `videos/` directory at deploy time. The configured path is `VIDEO_PATH=../videos` because the app runs from the `app/` directory. Flask serves video bytes at `/media/<category>/<filename>`.
+
+Keep the folder structure:
+
+```text
+videos/
+└── Demo/
+    └── sample.mp4
+```
+
+When you add or replace a video in GitHub on the `Master` branch, Render's automatic deploy rebuilds the service with that repository version, and the updated video set becomes available after deployment finishes.
+
+**Important limitations:** Render's free web service has an ephemeral filesystem and can spin down when idle. This Git-based approach is suitable for small demo files, but it is not persistent upload storage and is not recommended for a large video library. Files added only to the running service can disappear on restart or redeploy. For a growing library, use object storage (such as an S3-compatible bucket) or a Render persistent disk on a paid service, then configure the app to read from that storage. GitHub should not be used as a long-term host for large video files.
+
 ## Deploying with Docker Compose
 
 The Compose setup runs the Flask/Gunicorn website and an Nginx web server:
